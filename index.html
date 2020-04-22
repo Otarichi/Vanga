@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <title>VANGA</title>
+      <link rel="stylesheet" href="style/index.css">
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <!-- build:js -->
+    <script src="https://www.facebook.com/assets.php/en_US/fbinstant.latest.js"></script>
+      <!-- endbuild -->
+    
+    <script type="text/javascript">
+      var profile_Image = new Image();
+      var player_name;
+      var player_id;
+      var context_type;
+      var LANG = "ka";
+      var ID = null;
+      var SEX = null;
+      var count = 0;
+      var index = null;
+      var shareFun;
+      var payLoad;
+      var finished = false;
+      var againBool = false;
+
+      const assets = [
+        'img/asset1.png',
+        'img/asset2.png',
+        'img/asset3.png',
+        'img/asset4.png'
+      ];
+
+      window.onload = function() {
+        $('#info-section').hide();
+
+        // When the window loads, start to initialize the SDK
+        FBInstant.initializeAsync().then(function() {
+
+          // We can start to load assets
+          for (let i in assets) {
+            // When preloading assets, make sure to report the progress
+            FBInstant.setLoadingProgress(i / assets.length * 100);
+          }
+
+          // Now that assets are loaded, call startGameAsync
+          FBInstant.startGameAsync().then(onStart);
+        });
+
+        $(".trigger_popup_fricc").click(function(){
+            $('.hover_bkgr_fricc').show();
+        });
+        $('.hover_bkgr_fricc').click(function(){
+            $('.hover_bkgr_fricc').hide();
+        });
+
+        $(".trigger_popup_info").click(function(){
+            $('.hover_bkgr_info').show();
+        });
+        $('.hover_bkgr_info').click(function(){
+            $('.hover_bkgr_info').hide();
+        });
+
+      };
+
+      function onStart() {
+        // This is called when the user has tapped Play
+        // Information from the SDK can now be accessed
+
+        profile_Image.crossOrigin = "Anonymous";
+        profile_Image.src = FBInstant.player.getPhoto();
+        player_name = FBInstant.player.getName();
+        player_id = FBInstant.player.getID();
+        context_type = FBInstant.context.getType();
+
+        payLoad = FBInstant.getEntryPointData();
+
+        shareFun = function(img){
+          FBInstant.shareAsync({
+             intent: 'INVITE',
+             image: img, // base64Image code must be passed in img
+             text: 'Play this Awesome game',
+             data: {myReplayData: {
+                id: ID,
+                language: LANG,
+                sex: SEX
+             }},
+          }).then(function() {
+              location.reload();
+          });
+        }
+        
+        if (payLoad !== null){
+            LANG = payLoad.myReplayData.language;
+            ID = payLoad.myReplayData.id;
+            if (payLoad.myReplayData.sex !== "no"){
+              SEX = "yes";
+            } else {
+              SEX = payLoad.myReplayData.sex;
+            }
+        }
+
+        let mainScript = document.createElement("script");
+        mainScript.src = "scripts/index.js";
+        document.body.append(mainScript);
+
+        try{
+          $('#entrypointdata').html(JSON.stringify(FBInstant.getEntryPointData()));
+        }catch(e){
+          console.log(e);
+        }
+        $('#info-section').show();
+      }
+    </script>
+
+    <div class="header">
+      <img class="trigger_popup_info" src="assets/baseMain/info.png">
+      <div class="hover_bkgr_info">
+        <span class="helper_info"></span>
+        <div>
+          <div id="aboutInfoButtonDiv" class="infoButtonsDiv">ABOUT & FAQs</div>
+          <div id="termInfoButtonDiv" class="infoButtonsDiv">TERMS OF SERVICE</div>
+          <div id="policyInfoButtonDiv" class="infoButtonsDiv">PRIVACY POLICY</div>
+          <p style="font-weight: bold;">All content is provided for fun.</p>
+        </div>
+      </div>
+      <img id="logo" src="./assets/baseMain/logo.png">
+      <img class="trigger_popup_fricc" src="./assets/baseMain/language.png">
+      <div class="hover_bkgr_fricc">
+        <span class="helper_fricc"></span>
+        <div>
+            <div id="kaLangButtonDiv" class="langButtonsDiv">ქართული</div>
+            <div id="maLangButtonDiv" class="langButtonsDiv">მარგალური</div>
+            <div id="enLangButtonDiv" class="langButtonsDiv">English</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/index.js" defer></script>
+  </body>
+</html>
