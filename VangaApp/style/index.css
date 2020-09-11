@@ -33,45 +33,10 @@ a {
     height: 80px;
     text-align: center;
 }
-.trigger_popup_info {
-    width: 30px;
-    position: absolute;
-    left: 0;
-    margin-left: 15px;
-    margin-top: 25px;
-}
-.hover_bkgr_info{
-    background:rgba(0,0,0,.4);
-    cursor:pointer;
-    display:none;
-    height:100%;
-    position:fixed;
-    text-align:center;
-    top:0;
-    width:100%;
-    z-index:10000;
-}
-.hover_bkgr_info .helper_info{
-    display:inline-block;
-    height:100%;
-    vertical-align:middle;
-}
-.hover_bkgr_info > div {
-    box-shadow: 10px 10px 60px #555;
-    display: inline-block;
-    background-color: white;
-    height: auto;
-    max-width: 170px;
-    min-height: 150px;
-    vertical-align: middle;
-    width: 60%;
-    position: relative;
-    border-radius: 8px;
-    padding: 10px;
-}
+
 .trigger_popup_fricc {
     position: absolute;
-    right: 0;
+    left: 0;
     margin-right: 10px;
     width: 48px;
     margin-top: 16px;
@@ -97,10 +62,9 @@ a {
     display: inline-block;
     background-color: white;
     height: auto;
-    max-width: 150px;
+    width: 200px;
     min-height: 150px;
     vertical-align: middle;
-    width: 60%;
     position: relative;
     border-radius: 8px;
     padding: 10px;
@@ -116,7 +80,7 @@ a {
     color: white;
 }
 .infoButtonsDiv{
-    width: 150px;
+    width: 100%;
     background-color: #FF7105;
     align-content: center;
     padding-top: 10px;
